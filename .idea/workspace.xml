@@ -2,35 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="df067a1d-86da-4495-a0d9-75347b6b2261" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_nop_unknown.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mapreduce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/mapreduce.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/sdic.sjtu/mapreduce/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/sdic.sjtu/mapreduce/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/InvertedIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/InvertedIndex.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/WordCount.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/WordCount.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Channel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Channel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/DoTaskArgs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/DoTaskArgs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Func.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Func.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/JobPhase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/JobPhase.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/KeyValue.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/KeyValue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Parallelism.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Parallelism.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/common/Utils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/MapFunc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/MapFunc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Mapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Mapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Master.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Master.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/ReduceFunc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/ReduceFunc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Reducer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Reducer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Scheduler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Scheduler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Worker$RPCFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Worker$RPCFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Worker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/core/Worker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/rpc/Call.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/rpc/Call.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/rpc/MasterRpcService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/rpc/MasterRpcService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/rpc/WorkerRpcService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sjtu/sdic/mapreduce/rpc/WorkerRpcService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/MRTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/MRTest.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -49,8 +21,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/MRTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="42" column="22" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
+            <state relative-caret-position="126">
+              <caret line="79" column="39" lean-forward="true" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sjtu/sdic/mapreduce/core/Master.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -64,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+            <state relative-caret-position="378">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
@@ -83,6 +76,7 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/sjtu/sdic/mapreduce/core/Mapper.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -155,7 +149,8 @@
             </path>
             <path>
               <item name="mapreduce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="mapreduce" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -215,7 +210,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558352046222</updated>
-      <workItem from="1558352048693" duration="1456000" />
+      <workItem from="1558352048693" duration="1980000" />
     </task>
     <servers />
   </component>
@@ -226,9 +221,15 @@
     <history-entry file="MRTest - 2019.05.20 at 20h 12m 14s.xml">
       <configuration name="MRTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="MRTest - 2019.05.20 at 20h 14m 53s.xml">
+      <configuration name="MRTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MRTest - 2019.05.20 at 20h 16m 35s.xml">
+      <configuration name="MRTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1456000" />
+    <option name="totallyTimeSpent" value="1980000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -256,10 +257,10 @@
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Java Enterprise" />
       <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" weight="0.32952183" />
+      <window_info anchor="bottom" id="Version Control" visible="true" weight="0.32952183" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32952183" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32952183" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32952183" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -278,19 +279,22 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/mapreduce.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/pg-being_ernest.txt">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/MRTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="42" column="22" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sjtu/sdic/mapreduce/core/Mapper.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -301,8 +305,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+        <state relative-caret-position="378">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/MRTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="79" column="39" lean-forward="true" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sjtu/sdic/mapreduce/core/Master.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
         </state>
       </provider>
     </entry>

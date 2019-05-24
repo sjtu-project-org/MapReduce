@@ -1,21 +1,28 @@
 package sjtu.sdic.mapreduce.core;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import sjtu.sdic.mapreduce.common.KeyValue;
 import sjtu.sdic.mapreduce.common.Utils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Cachhe on 2019/4/19.
  */
 public class Mapper {
+    public static boolean debugEnabled = true;
 
+    public static void debug(String msg) {
+        if (debugEnabled)
+            System.out.println(msg);
+    }
     /**
      * doMap manages one map task: it should read one of the input files
      * {@code inFile}, call the user-defined map function {@code mapFunc} for
@@ -65,7 +72,55 @@ public class Mapper {
      * @param mapFunc the user-defined map function
      */
     public static void doMap(String jobName, int mapTask, String inFile, int nReduce, MapFunc mapFunc) {
-        
+        debug("doMap:jobName:" + jobName + "    mapTask:"+String.valueOf(mapTask) + "   inFile:"+inFile + " nReduce:"+String.valueOf(nReduce));
+        //read file content
+        JSONObject json = new JSONObject(new LinkedHashMap());
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(inFile));
+            String content = "";
+            int r = -1;
+            byte[] bytes = new byte[2048];
+            while((r = in.read(bytes, 0, bytes.length)) != -1){
+                String str = new String(bytes,0,r,"UTF-8");
+                content = content + str;
+            }
+            in.close();
+            List<KeyValue> kv = mapFunc.map(inFile, content);
+            //kv's element is "1":"", construct it with hashCode fun
+            //{@link Mapper#hashCode(String)} on each key, mod nReduce
+            for(KeyValue t:kv){
+                json.put(t.key, hashCode(t.key) % nReduce);
+            }
+            debug("after map, json size:" + String.valueOf(json.size()));
+            //debug("json now is:" + js);
+        }catch (Exception e){
+            e.printStackTrace();
+            debug("file reading error\n");
+        }
+        //loop reduce works
+        for(int i = 0; i < nReduce; ++i){
+            String filename = Utils.reduceName(jobName, mapTask, i);
+            debug("map intermidiate filename:" + filename);
+            JSONObject curJson = new JSONObject(new LinkedHashMap<>());
+            //choose suitable json object from map's intermediate file(value == Reduce Number)
+            for(Map.Entry<String, Object> e: json.entrySet()){
+                if((Integer)e.getValue() == i){
+                    curJson.put(e.getKey(), e.getValue());
+                }
+            }
+            //save curJson
+            try {
+                FileWriter fw = new FileWriter(filename, false);
+                BufferedWriter bw = new BufferedWriter(fw);
+                String content = curJson.toString();
+                bw.write(content);
+                bw.close();
+                fw.close();
+            }catch (Exception e ){
+                e.printStackTrace();
+                debug("file saving error\n");
+            }
+        }
     }
 
     /**

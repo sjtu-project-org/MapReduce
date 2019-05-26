@@ -66,6 +66,13 @@ public class Reducer {
         JSONObject res = new JSONObject(new LinkedHashMap<>());
         for(int i = 0; i < nMap; ++i){
             //eg. mrtmp.test-perMapTask-ReduceNum
+            //eg. mrtmp.test.0-0
+            //eg. mrtmp.test.0-1
+            //eg. mrtmp.test.0-2
+            //eg. mrtmp.test.x-0
+            //eg. mrtmp.test.x-1
+            //...
+            //eg. mrtmp.test.7-2
             String filename = Utils.reduceName(jobName, i, reduceTask);
             Utils.debug("reduce task's filename:" + filename);
             //read
@@ -82,21 +89,35 @@ public class Reducer {
                 in.close();
                 //parse current content to JSON
                 JSONObject curJson = JSONObject.parseObject(content);
-                Utils.debug("curJson's size:" + curJson.size());
-                Utils.debug("curJson:" + curJson);
-                //loop curJson, check whether exists in res JSON. if not exists, put new element; else value++
+                //for each json obj, call reduceFun to add String[] values to a single String
+                //then put the ReducedValue in res json --- store in relative reducer-res-file
+                //update res's key-value pair if there are same word existing
                 for(Map.Entry<String, Object> e: curJson.entrySet()){
-                    String key = e.getKey();
-                    //key exists already
-                    if(res.containsKey(key)){
-                        //reduceFunc.reduce(e.getKey(), new String[1](res.getString(key)));
-                        String value = res.getString(key);
-                        value = String.valueOf(Integer.parseInt(value) + 1);
-                        res.replace(key,value);//add 1
-                    }else{
-                        //new element
-                        res.put(e.getKey(), e.getValue());
+                    String Value = (String)e.getValue();
+                    JSONArray ValueArray = JSONArray.parseArray(Value);
+                    //transform JSONArray to Object[]
+                    Object[] Objs = ValueArray.toArray();
+                    //transform Object[] to String[]
+                    //TODO: how to make it easier instead of constructing a new String Array ?
+                    int size = Objs.length;
+                    String[] Values = new String[size];
+                    for(int q = 0; q < size; ++q){
+                        Values[q] = (String)Objs[q];
                     }
+                    String ReducedValue = reduceFunc.reduce(e.getKey(), Values);
+                    if(!res.containsKey(e.getKey())){
+                        //not exists, construct new pair
+                        res.put(e.getKey(), ReducedValue);
+                    }else{
+                        //exists, update value
+                        String OldValue = (String)res.getString(e.getKey());
+                        Integer oldValue = Integer.valueOf(OldValue);
+                        //String CurValue = (String)e.getValue();
+                        Integer curValue = Integer.valueOf(ReducedValue);
+                        String NewValue = String.valueOf(oldValue+curValue);
+                        res.replace(e.getKey(), NewValue);
+                    }
+
                 }
 
             } catch (IOException e) {
@@ -105,12 +126,61 @@ public class Reducer {
             }
         }
         //write final JSON into File: *-res-reduceNum
+        //before write JSON data, check whether this file is empty.
+        //if not, PARSE old value and add this json(res) in its, then store new JSON in it
         try {
+            //test file exists
+            File file = new File(outFile);
+            if(!file.exists()){
+                file.createNewFile();
+            }else{
+                //clear this file, in order to avoid *FAILED TEST* impact
+                file.delete();
+                file.createNewFile();
+            }
+            //read OldJson
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(outFile));
+            String content = "";
+            int r = -1;
+            byte[] bytes = new byte[2048];
+            while((r = in.read(bytes, 0, bytes.length)) != -1){
+                String str = new String(bytes,0,r,"UTF-8");
+                content = content + str;
+            }
+            //update OldJson.
+            JSONObject OldJson = JSONObject.parseObject(content);
+            Boolean EmptyFile = false;
+            if(OldJson == null){
+                EmptyFile = true;
+                OldJson = new JSONObject();
+            }
+            //loop OldJson, merge res into OldJson
+            for(Map.Entry<String, Object> e: OldJson.entrySet()){
+                //res.containsKey(...) is *TRUE*
+                //this word exists already, add res' value to OldValue
+                if(res.containsKey(e.getKey())){
+                    String OldValue = OldJson.getString(e.getKey());
+                    Integer oldValue = Integer.valueOf(OldValue);
+                    String CurValue = (String)res.getString(e.getKey());
+                    Integer curValue = Integer.valueOf(CurValue);
+
+                    String NewValue = String.valueOf(oldValue + curValue);
+                    OldJson.replace(e.getKey(), NewValue);
+                }
+            }
+            //add res' remained value to OldJson
+            for(Map.Entry<String, Object> e: res.entrySet()){
+                if(!OldJson.containsKey(e.getKey())){
+                    OldJson.put(e.getKey(), e.getValue());
+                }
+            }
+            //write
             FileWriter fw = new FileWriter(outFile, false);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(res.toJSONString());
+            bw.write(OldJson.toJSONString());
             bw.close();
             fw.close();
+
         }catch (IOException e){
             e.printStackTrace();
             Utils.debug("reduce writing error\n");

@@ -8,21 +8,12 @@ import sjtu.sdic.mapreduce.common.Utils;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Cachhe on 2019/4/19.
  */
 public class Mapper {
-    public static boolean debugEnabled = true;
-
-    public static void debug(String msg) {
-        if (debugEnabled)
-            System.out.println(msg);
-    }
     /**
      * doMap manages one map task: it should read one of the input files
      * {@code inFile}, call the user-defined map function {@code mapFunc} for
@@ -72,9 +63,10 @@ public class Mapper {
      * @param mapFunc the user-defined map function
      */
     public static void doMap(String jobName, int mapTask, String inFile, int nReduce, MapFunc mapFunc) {
-        debug("doMap:jobName:" + jobName + "    mapTask:"+String.valueOf(mapTask) + "   inFile:"+inFile + " nReduce:"+String.valueOf(nReduce));
+        Utils.debug("doMap:jobName:" + jobName + "    mapTask:"+String.valueOf(mapTask) + "   inFile:"+inFile + " nReduce:"+String.valueOf(nReduce));
         //read file content
         JSONObject json = new JSONObject(new LinkedHashMap());
+        JSONObject res[] = new JSONObject[nReduce];
         try {
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(inFile));
             String content = "";
@@ -86,29 +78,48 @@ public class Mapper {
             }
             in.close();
             List<KeyValue> kv = mapFunc.map(inFile, content);
-            //kv's element is "1":"", construct it with hashCode fun
-            //{@link Mapper#hashCode(String)} on each key, mod nReduce
+            //for each Key-Value pair, transform value to JSONArray, but just a simple 't.value'
+            //then transform JSONArray to String, store this String as the final json's relative key's value
             for(KeyValue t:kv){
-                json.put(t.key, hashCode(t.key) % nReduce);
+                String key = t.key;
+                if(json.containsKey(key)){
+                    //if exists, update its ValueArray
+                    Utils.debug("existing, update\n");
+                    String oldValue = json.getString(key);
+                    JSONArray vJson = JSONArray.parseArray(oldValue);
+                    vJson.add("1");
+                    String newValue = vJson.toString();
+                    json.replace(key, newValue);
+                }
+                else{
+                    //construct a new pair
+                    //get String[] value, add new value in it (actually, it is 1)
+                    Utils.debug("not existing, construct\n");
+                    JSONArray vJson = new JSONArray();
+                    vJson.add(t.value);
+                    String newValue = vJson.toJSONString();
+                    json.put(t.key, newValue);
+                }
+
             }
-            debug("after map, json size:" + String.valueOf(json.size()));
-            //debug("json now is:" + js);
+            Utils.debug("after map, json size:" + String.valueOf(json.size()));
         }catch (Exception e){
             e.printStackTrace();
-            debug("file reading error\n");
+            Utils.debug("file reading error\n");
         }
         //loop reduce works
         for(int i = 0; i < nReduce; ++i){
             String filename = Utils.reduceName(jobName, mapTask, i);
-            debug("map intermidiate filename:" + filename);
+            Utils.debug("map intermidiate filename:" + filename);
             JSONObject curJson = new JSONObject(new LinkedHashMap<>());
-            //choose suitable json object from map's intermediate file(value == Reduce Number)
+            //for each json obj, store them in correct Reducer(judge with hahsCode's ans mod nReduce)
             for(Map.Entry<String, Object> e: json.entrySet()){
-                if((Integer)e.getValue() == i){
+                //select Reducer
+                if(hashCode(e.getKey()) % nReduce == i){
                     curJson.put(e.getKey(), e.getValue());
                 }
             }
-            //save curJson
+            //save curJson in immidiate file
             try {
                 FileWriter fw = new FileWriter(filename, false);
                 BufferedWriter bw = new BufferedWriter(fw);
@@ -118,7 +129,7 @@ public class Mapper {
                 fw.close();
             }catch (Exception e ){
                 e.printStackTrace();
-                debug("file saving error\n");
+                Utils.debug("file saving error\n");
             }
         }
     }

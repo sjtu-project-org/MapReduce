@@ -6,10 +6,15 @@ import sjtu.sdic.mapreduce.common.JobPhase;
 import sjtu.sdic.mapreduce.common.Utils;
 import sjtu.sdic.mapreduce.rpc.Call;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Cachhe on 2019/4/22.
@@ -32,6 +37,12 @@ public class Scheduler {
      * @param registerChan register info channel
      */
     public static void schedule(String jobName, String[] mapFiles, int nReduce, JobPhase phase, Channel<String> registerChan) {
+        Utils.debug("jobName:" + jobName + "nReduce:" + String.valueOf(nReduce) + "jobPhase:" + phase);
+        Utils.debug("mapFile:");
+        for(String s: mapFiles){
+            Utils.debug(s);
+        }
+
         int nTasks = -1; // number of map or reduce tasks
         int nOther = -1; // number of inputs (for reduce) or outputs (for map)
         switch (phase) {
@@ -54,8 +65,42 @@ public class Scheduler {
         // Your code here (Part III, Part IV).
         //
         */
-
-
+        /*
+         * for MapPhase, i means the number of MapFile
+         * **Call.getWorkerRpcService(worker).doTask(arg)** to hand out a task to a worker
+         * nMapTask: 20  nReducerTask: 10
+         */
+        CountDownLatch downLatch = new CountDownLatch(nTasks);
+        for(int i = 0; i < nTasks; ++i){
+            DoTaskArgs doTask = new DoTaskArgs(jobName, mapFiles[i], phase, i, nOther);
+            //new thread
+            Thread t = new Thread(new Runnable(){
+                public void run(){
+                    String curWorker = null;
+                    try {
+                        curWorker = (String) registerChan.read();
+                    }catch (InterruptedException e){
+                        Utils.debug("registerChan.read() error");
+                    }
+                    Utils.debug("curWorker:" + curWorker);
+                    Call.getWorkerRpcService(curWorker).doTask(doTask);
+                    Utils.debug("Worker finish its task, then countDown...");
+                    downLatch.countDown();
+                    try {
+                        registerChan.write(curWorker);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
+        }
+        try {
+            Utils.debug("Master is waiting Workers to finish all task...");
+            downLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(String.format("Schedule: %s done", phase));
     }
 }

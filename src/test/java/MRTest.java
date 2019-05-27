@@ -29,7 +29,7 @@ public class MRTest {
 
     // Split in words
     public List<KeyValue> mapFunc(String file, String value) {
-        Utils.debug(value);
+        //Utils.debug(value);
 
         List<KeyValue> keyValues = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class MRTest {
     // Just return key
     public String reduceFunc(String key, String[] values) {
         for (String s : values) {
-            Utils.debug(String.format("Reduce %s %s", key, s));
+            //Utils.debug(String.format("Reduce %s %s", key, s));
         }
         return "";
     }

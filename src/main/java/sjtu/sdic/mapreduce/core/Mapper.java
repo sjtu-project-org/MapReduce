@@ -84,7 +84,7 @@ public class Mapper {
                 String key = t.key;
                 if(json.containsKey(key)){
                     //if exists, update its ValueArray
-                    Utils.debug("existing, update\n");
+                    //Utils.debug("existing, update\n");
                     String oldValue = json.getString(key);
                     JSONArray vJson = JSONArray.parseArray(oldValue);
                     vJson.add("1");
@@ -94,7 +94,7 @@ public class Mapper {
                 else{
                     //construct a new pair
                     //get String[] value, add new value in it (actually, it is 1)
-                    Utils.debug("not existing, construct\n");
+                    //Utils.debug("not existing, construct\n");
                     JSONArray vJson = new JSONArray();
                     vJson.add(t.value);
                     String newValue = vJson.toJSONString();
@@ -110,7 +110,6 @@ public class Mapper {
         //loop reduce works
         for(int i = 0; i < nReduce; ++i){
             String filename = Utils.reduceName(jobName, mapTask, i);
-            Utils.debug("map intermidiate filename:" + filename);
             JSONObject curJson = new JSONObject(new LinkedHashMap<>());
             //for each json obj, store them in correct Reducer(judge with hahsCode's ans mod nReduce)
             for(Map.Entry<String, Object> e: json.entrySet()){
@@ -132,6 +131,7 @@ public class Mapper {
                 Utils.debug("file saving error\n");
             }
         }
+        Utils.debug("map intermidiate filename:" + Utils.reduceName(jobName, mapTask, -1));
     }
 
     /**

@@ -1,10 +1,12 @@
 package sjtu.sdic.mapreduce.core;
 
+import com.alipay.sofa.rpc.core.exception.SofaRpcException;
 import sjtu.sdic.mapreduce.common.Channel;
 import sjtu.sdic.mapreduce.common.DoTaskArgs;
 import sjtu.sdic.mapreduce.common.JobPhase;
 import sjtu.sdic.mapreduce.common.Utils;
 import sjtu.sdic.mapreduce.rpc.Call;
+import sjtu.sdic.mapreduce.rpc.WorkerRpcService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,22 +76,32 @@ public class Scheduler {
         for(int i = 0; i < nTasks; ++i){
             DoTaskArgs doTask = new DoTaskArgs(jobName, mapFiles[i], phase, i, nOther);
             //new thread
+            int NumOfSuccess = 0;
             Thread t = new Thread(new Runnable(){
                 public void run(){
                     String curWorker = null;
-                    try {
-                        curWorker = (String) registerChan.read();
-                    }catch (InterruptedException e){
-                        Utils.debug("registerChan.read() error");
-                    }
-                    Utils.debug("curWorker:" + curWorker);
-                    Call.getWorkerRpcService(curWorker).doTask(doTask);
-                    Utils.debug("Worker finish its task, then countDown...");
-                    downLatch.countDown();
-                    try {
-                        registerChan.write(curWorker);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(true){
+                        try {
+                            curWorker = (String) registerChan.read();
+                        }catch (InterruptedException e){
+                            Utils.debug("registerChan.read() error");
+                        }
+                        Utils.debug("curWorker:" + curWorker);
+                        WorkerRpcService wRpcs = Call.getWorkerRpcService(curWorker);
+                        try {
+                            wRpcs.doTask(doTask);
+                            Utils.debug("Worker finish its task, then countDown...");
+                            downLatch.countDown();
+                            try {
+                                registerChan.write(curWorker);
+                                break;//break when success
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }catch (SofaRpcException e){
+                            //re-assign worker to continue
+                            Utils.debug(curWorker+"failed--------------------------------------------------------------------");
+                        }
                     }
                 }
             });

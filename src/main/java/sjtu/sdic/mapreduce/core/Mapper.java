@@ -87,7 +87,7 @@ public class Mapper {
                     //Utils.debug("existing, update\n");
                     String oldValue = json.getString(key);
                     JSONArray vJson = JSONArray.parseArray(oldValue);
-                    vJson.add("1");
+                    vJson.add(t.value);
                     String newValue = vJson.toString();
                     json.replace(key, newValue);
                 }

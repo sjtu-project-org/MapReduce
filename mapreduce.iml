@@ -10,13 +10,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-nop:1.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.57" level="project" />
     <orderEntry type="library" name="Maven: net.sf.trove4j:core:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.alipay.sofa:sofa-rpc-all:5.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.alipay.sofa:bolt:1.4.6" level="project" />
     <orderEntry type="library" name="Maven: com.alipay.sofa.common:sofa-common-tools:1.0.18" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.25.Final" level="project" />
     <orderEntry type="library" name="Maven: com.alipay.sofa:hessian:3.3.6" level="project" />

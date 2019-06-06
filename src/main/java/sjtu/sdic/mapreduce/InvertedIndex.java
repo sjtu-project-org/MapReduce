@@ -21,7 +21,6 @@ public class InvertedIndex {
     public static List<KeyValue> mapFunc(String file, String value) {
         List<KeyValue> ret = new ArrayList<>();
         //Utils.debug("file:" + file + "value:"+value);
-        int len = value.length();
         String RegExp = "[a-zA-Z0-9]+";
         Pattern p = Pattern.compile(RegExp);
         Matcher m = p.matcher(value);

@@ -27,7 +27,15 @@ public class WordCount {
      */
     public static List<KeyValue> mapFunc(String file, String value) {
         List<KeyValue> keyValues = new ArrayList<>();
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        String RegExp = "[a-zA-Z0-9]+";
+        Pattern p = Pattern.compile(RegExp);
+        Matcher m = p.matcher(value);
+        while(m.find()){
+            String curString = m.group();
+            keyValues.add(new KeyValue(curString, "1"));
+        }
+        return keyValues;
+        /*
         //regular expression
         String RegExp = "[a-zA-Z0-9]+";
         int Len = value.length(), Start = 0, End = 0;
@@ -61,7 +69,7 @@ public class WordCount {
                 keyValues.add(new KeyValue(tmp, "1"));
             }
         }
-        return keyValues;
+        return keyValues;*/
     }
     /*
      * reduceFunc for WordCount instead of MRTest
